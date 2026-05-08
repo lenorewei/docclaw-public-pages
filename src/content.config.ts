@@ -26,7 +26,16 @@ const readwise = defineCollection({
   schema: sharedSchema,
 });
 
+const daily = defineCollection({
+  loader: glob({
+    base: './src/content/daily',
+    pattern: '**/*.{md,mdx}',
+  }),
+  schema: sharedSchema,
+});
+
 export const collections = {
   'ai-digest': aiDigest,
   readwise,
+  daily,
 };
