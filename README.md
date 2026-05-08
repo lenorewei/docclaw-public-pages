@@ -1,43 +1,52 @@
-# Astro Starter Kit: Minimal
+# docClaw Public Pages
+
+一个完全独立的 Astro 静态站，用来发布可以公开访问的页面，比如 AI digest 长版内容。
+
+这个 repo 不读取、不同步 `/Users/lenore/Documents/docClaw`，内容直接写在本项目里，降低 vault 暴露和同步复杂度。
+
+## 技术栈
+
+- Astro
+- Markdown content collection
+- Cloudflare Pages 静态部署
+
+## 本地开发
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 构建
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Cloudflare Pages 设置：
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- Build command: `npm run build`
+- Build output directory: `dist`
+- Node.js: 22.12 或更新
 
-Any static assets, like images, can be placed in the `public/` directory.
+## 写一篇 AI digest
 
-## 🧞 Commands
+在 `src/content/ai-digest/` 下新增 Markdown 文件：
 
-All commands are run from the root of the project, from a terminal:
+```md
+---
+title: "标题"
+description: "一句话摘要"
+date: 2026-05-08
+tags:
+  - AI
+---
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+正文内容。
+```
 
-## 👀 Want to learn more?
+构建后会生成：
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- 首页列表：`/`
+- 文章详情：`/ai-digest/<文件名>/`
