@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('ai-digest'))
+const posts = (await getCollection('daily'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
@@ -12,7 +12,7 @@ const formatDate = (date: Date) =>
     day: 'numeric',
   }).format(date);
 
-const hrefFor = (id: string) => `/ai-digest/${id.replace(/\.(md|mdx)$/i, '')}/`;
+const hrefFor = (id: string) => `/daily/${id.replace(/\.(md|mdx)$/i, '')}/`;
 ---
 
 <!doctype html>
@@ -25,16 +25,16 @@ const hrefFor = (id: string) => `/ai-digest/${id.replace(/\.(md|mdx)$/i, '')}/`;
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="AI 建造者动态的公开详细版。微信里看短摘要，点进来看完整卡片。"
+      content="AIHOT 和 Readwise 的公开每日简报。微信里看短摘要，点进来看完整内容。"
     />
-    <title>AI Digest · Lenore Wei</title>
+    <title>Daily Digest · Lenore Wei</title>
   </head>
   <body>
     <main class="shell">
       <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">AI DIGEST</p>
-        <h1 id="page-title">AI 建造者动态</h1>
-        <p class="lede">微信晨报的详细版。只放公开内容，不接 Obsidian，不放私人记录。</p>
+        <p class="eyebrow">DAILY DIGEST</p>
+        <h1 id="page-title">每日简报</h1>
+        <p class="lede">公开可分享的一页日报：AIHOT 动态 + Readwise 每日回顾入口，不放私人记录。</p>
       </section>
 
       <section class="posts" aria-labelledby="digest-title">
