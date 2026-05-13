@@ -30,32 +30,27 @@ const hrefFor = (id: string) => `/daily/${id.replace(/\.(md|mdx)$/i, '')}/`;
       name="description"
       content="AIHOT 和 Readwise 的公开每日简报。微信里看短摘要，点进来看完整内容。"
     />
-    <title>Daily Digest · Lenore Wei</title>
+    <title>Daily Digest · docClaw Public Pages</title>
   </head>
   <body>
-    <main class="shell">
-      <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">DAILY DIGEST</p>
-        <h1 id="page-title">每日简报</h1>
-        <p class="lede">公开可分享的一页日报：AIHOT 动态 + Readwise 每日回顾入口，不放私人记录。</p>
-      </section>
-
-      <section class="posts" aria-labelledby="digest-title">
-        <div class="section-heading">
-          <p class="eyebrow">LATEST</p>
-          <h2 id="digest-title">最近更新</h2>
+    <main class="site-shell">
+      <nav class="site-topbar" aria-label="站点导航">
+        <a class="site-mark" href="/">docClaw Public Pages</a>
+        <div class="site-nav" aria-label="当前栏目">
+          <span class="active">Daily Digest</span>
+          <span>公开内容</span>
         </div>
       </nav>
 
       <section class="home-hero" aria-labelledby="page-title">
         <div>
-          <p class="eyebrow">AI DIGEST</p>
-          <h1 id="page-title">AI 建造者动态</h1>
-          <p>微信晨报的详细版。只放公开内容，不接 Obsidian，不放私人记录。</p>
+          <p class="eyebrow">DAILY DIGEST</p>
+          <h1 id="page-title">每日简报</h1>
+          <p>公开可分享的一页日报：AIHOT 动态 + Readwise 每日回顾入口，不放私人记录。</p>
         </div>
         <div class="hero-note" aria-label="站点说明">
           <strong>Public notes, compact by design.</strong>
-          <p>source: public feeds<br />format: long digest<br />scope: AI builders</p>
+          <p>source: public feeds<br />format: daily brief<br />scope: AIHOT / Readwise</p>
         </div>
       </section>
 
@@ -80,7 +75,7 @@ const hrefFor = (id: string) => `/daily/${id.replace(/\.(md|mdx)$/i, '')}/`;
               {featured.data.description && <p>{featured.data.description}</p>}
               <div class="feature-meta">
                 <time datetime={featured.data.date.toISOString()}>{formatDate(featured.data.date)}</time>
-                <span>AI Digest</span>
+                <span>Daily Digest</span>
               </div>
               {
                 featured.data.tags.length > 0 && (
