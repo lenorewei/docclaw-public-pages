@@ -1,0 +1,101 @@
+---
+import '../styles/site.css';
+
+interface Props {
+  post: {
+    data: {
+      title: string;
+      description?: string;
+      date: Date;
+      updated?: Date;
+      tags: string[];
+    };
+  };
+  sectionLabel: string;
+  sectionTitle: string;
+  backLabel?: string;
+}
+
+const { post, sectionLabel, sectionTitle, backLabel = '返回列表' } = Astro.props;
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+
+const machineDate = (date: Date) => date.toISOString();
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={post.data.description ?? post.data.title} />
+    <title>{post.data.title} · {sectionTitle}</title>
+  </head>
+  <body>
+    <main class="detail-page">
+      <nav class="detail-topbar" aria-label="页面导航">
+        <a class="site-mark" href="/">docClaw Public Pages</a>
+        <a class="back-link" href="/">{backLabel}</a>
+      </nav>
+
+      <div class="detail-grid">
+        <article>
+          <header class="article-header">
+            <p class="eyebrow">{sectionLabel}</p>
+            <h1>{post.data.title}</h1>
+            <div class="article-meta-line">
+              <time datetime={machineDate(post.data.date)}>{formatDate(post.data.date)}</time>
+              <span>{sectionTitle}</span>
+            </div>
+            {post.data.description && <p class="article-description">{post.data.description}</p>}
+            {
+              post.data.tags.length > 0 && (
+                <ul class="tag-list article-header-tags" aria-label="标签">
+                  {post.data.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              )
+            }
+          </header>
+
+          <div class="article-content">
+            <slot />
+          </div>
+        </article>
+
+        <aside class="meta-rail" aria-label="文章信息">
+          <h2>文章信息</h2>
+          <div class="meta-row">
+            <span>日期</span>
+            <time datetime={machineDate(post.data.date)}>{formatDate(post.data.date)}</time>
+          </div>
+          {
+            post.data.updated && (
+              <div class="meta-row">
+                <span>更新</span>
+                <time datetime={machineDate(post.data.updated)}>{formatDate(post.data.updated)}</time>
+              </div>
+            )
+          }
+          <div class="meta-row">
+            <span>类型</span>
+            <span>{sectionTitle}</span>
+          </div>
+          {
+            post.data.tags.length > 0 && (
+              <ul class="tag-list" aria-label="标签">
+                {post.data.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+            )
+          }
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

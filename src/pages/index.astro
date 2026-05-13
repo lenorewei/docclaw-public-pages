@@ -1,9 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
+import '../styles/site.css';
 
 const posts = (await getCollection('ai-digest'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const featured = posts[0];
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -27,260 +30,100 @@ const hrefFor = (id: string) => `/ai-digest/${id.replace(/\.(md|mdx)$/i, '')}/`;
       name="description"
       content="AI 建造者动态的公开详细版。微信里看短摘要，点进来看完整卡片。"
     />
-    <title>AI Digest · Lenore Wei</title>
+    <title>AI Digest · docClaw Public Pages</title>
   </head>
   <body>
-    <main class="shell">
-      <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">AI DIGEST</p>
-        <h1 id="page-title">AI 建造者动态</h1>
-        <p class="lede">微信晨报的详细版。只放公开内容，不接 Obsidian，不放私人记录。</p>
-      </section>
-
-      <section class="posts" aria-labelledby="digest-title">
-        <div class="section-heading">
-          <p class="eyebrow">LATEST</p>
-          <h2 id="digest-title">最近更新</h2>
+    <main class="site-shell">
+      <nav class="site-topbar" aria-label="站点导航">
+        <a class="site-mark" href="/">docClaw Public Pages</a>
+        <div class="site-nav" aria-label="当前栏目">
+          <span class="active">AI Digest</span>
+          <span>公开内容</span>
         </div>
+      </nav>
 
-        {posts.length > 0 ? (
-          <div class="post-list">
-            {posts.map((post) => (
-              <article class="post-card">
-                <a href={hrefFor(post.id)}>
-                  <div class="post-main">
-                    <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
-                    <h3>{post.data.title}</h3>
-                    {post.data.description && <p>{post.data.description}</p>}
-                  </div>
-                  {post.data.tags.length > 0 && (
-                    <ul aria-label="标签">
-                      {post.data.tags.map((tag) => <li>{tag}</li>)}
-                    </ul>
-                  )}
-                </a>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <p class="empty">还没有公开文章。</p>
-        )}
+      <section class="home-hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">AI DIGEST</p>
+          <h1 id="page-title">AI 建造者动态</h1>
+          <p>微信晨报的详细版。只放公开内容，不接 Obsidian，不放私人记录。</p>
+        </div>
+        <div class="hero-note" aria-label="站点说明">
+          <strong>Public notes, compact by design.</strong>
+          <p>source: public feeds<br />format: long digest<br />scope: AI builders</p>
+        </div>
       </section>
+
+      {
+        featured ? (
+          <section class="featured-panel" aria-labelledby="featured-title">
+            <div class="feature-visual" aria-hidden="true">
+              <svg viewBox="0 0 320 200" fill="none" role="img">
+                <rect x="35" y="42" width="58" height="42" rx="2" stroke="currentColor" />
+                <rect x="132" y="30" width="72" height="56" rx="2" stroke="currentColor" />
+                <rect x="222" y="112" width="64" height="46" rx="2" stroke="currentColor" />
+                <circle cx="74" cy="136" r="21" stroke="currentColor" />
+                <path d="M94 64H126M169 88V126M101 136H214M204 128L222 128" stroke="currentColor" />
+                <path d="M143 49H192M143 66H178M238 128H274M238 144H263" stroke="currentColor" />
+              </svg>
+            </div>
+            <div class="feature-copy">
+              <p class="section-kicker">最新文章</p>
+              <h2 id="featured-title">
+                <a href={hrefFor(featured.id)}>{featured.data.title}</a>
+              </h2>
+              {featured.data.description && <p>{featured.data.description}</p>}
+              <div class="feature-meta">
+                <time datetime={featured.data.date.toISOString()}>{formatDate(featured.data.date)}</time>
+                <span>AI Digest</span>
+              </div>
+              {
+                featured.data.tags.length > 0 && (
+                  <ul class="tag-list" aria-label="标签">
+                    {featured.data.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )
+              }
+            </div>
+          </section>
+        ) : (
+          <p class="empty-state">还没有公开文章。</p>
+        )
+      }
+
+      {
+        posts.length > 0 && (
+          <section class="posts-section" aria-labelledby="digest-title">
+            <div class="section-heading">
+              <div>
+                <p class="section-kicker">Latest</p>
+                <h2 id="digest-title">最近更新</h2>
+              </div>
+            </div>
+
+            <div class="post-list">
+              {posts.map((post) => (
+                <article class="post-row">
+                  <a href={hrefFor(post.id)}>
+                    <time class="post-date" datetime={post.data.date.toISOString()}>
+                      {formatDate(post.data.date)}
+                    </time>
+                    <div>
+                      <h3>{post.data.title}</h3>
+                      {post.data.description && <p>{post.data.description}</p>}
+                    </div>
+                    {post.data.tags.length > 0 && (
+                      <ul class="tag-list" aria-label="标签">
+                        {post.data.tags.map((tag) => <li>{tag}</li>)}
+                      </ul>
+                    )}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      }
     </main>
   </body>
 </html>
-
-<style>
-  :root {
-    color-scheme: light;
-    --bg: #f7f6f2;
-    --surface: #ffffff;
-    --surface-soft: #fbfaf7;
-    --ink: rgba(0, 0, 0, 0.92);
-    --muted: #615d59;
-    --muted-2: #8b8680;
-    --border: rgba(0, 0, 0, 0.1);
-    --accent: #0075de;
-    --accent-soft: #f2f9ff;
-    --shadow: rgba(0, 0, 0, 0.04) 0px 4px 18px, rgba(0, 0, 0, 0.027) 0px 2px 8px,
-      rgba(0, 0, 0, 0.02) 0px 1px 3px;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .shell {
-    width: min(100%, 880px);
-    margin: 0 auto;
-    padding: 56px 22px 72px;
-  }
-
-  .hero {
-    padding: 42px;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    background: var(--surface);
-    box-shadow: var(--shadow);
-  }
-
-  .eyebrow {
-    margin: 0 0 12px;
-    color: var(--accent);
-    font-size: 0.76rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    line-height: 1.2;
-  }
-
-  h1,
-  h2,
-  h3,
-  p {
-    text-wrap: pretty;
-  }
-
-  h1 {
-    margin: 0;
-    max-width: 12ch;
-    font-size: clamp(2.7rem, 8vw, 4.8rem);
-    line-height: 1.02;
-    letter-spacing: -0.06em;
-  }
-
-  .lede {
-    max-width: 36rem;
-    margin: 20px 0 0;
-    color: var(--muted);
-    font-size: 1.08rem;
-    font-weight: 500;
-    line-height: 1.7;
-  }
-
-  .posts {
-    margin-top: 42px;
-  }
-
-  .section-heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: clamp(1.55rem, 4vw, 2.2rem);
-    line-height: 1.1;
-    letter-spacing: -0.045em;
-  }
-
-  .post-list {
-    display: grid;
-    gap: 12px;
-  }
-
-  .post-card a {
-    display: grid;
-    gap: 20px;
-    padding: 24px;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    background: var(--surface);
-    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px;
-    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-  }
-
-  .post-card a:hover,
-  .post-card a:focus-visible {
-    transform: translateY(-1px);
-    border-color: rgba(0, 117, 222, 0.32);
-    box-shadow: var(--shadow);
-    outline: none;
-  }
-
-  time {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--muted-2);
-    font-size: 0.88rem;
-    font-weight: 600;
-  }
-
-  h3 {
-    margin: 0;
-    font-size: clamp(1.22rem, 3vw, 1.7rem);
-    line-height: 1.22;
-    letter-spacing: -0.035em;
-  }
-
-  .post-card p,
-  .empty {
-    margin: 10px 0 0;
-    color: var(--muted);
-    font-size: 0.98rem;
-    line-height: 1.65;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-self: end;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li {
-    border-radius: 999px;
-    padding: 5px 10px;
-    color: var(--accent);
-    background: var(--accent-soft);
-    font-size: 0.75rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  @media (min-width: 720px) {
-    .post-card a {
-      grid-template-columns: 1fr auto;
-      align-items: end;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .shell {
-      padding: 22px 14px 48px;
-    }
-
-    .hero {
-      padding: 24px;
-      border-radius: 18px;
-    }
-
-    h1 {
-      max-width: none;
-      font-size: 2.35rem;
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-    }
-
-    .lede {
-      margin-top: 14px;
-      font-size: 0.98rem;
-      line-height: 1.65;
-    }
-
-    .posts {
-      margin-top: 28px;
-    }
-
-    .section-heading {
-      display: block;
-      margin-bottom: 12px;
-    }
-
-    .post-card a {
-      padding: 18px;
-      border-radius: 14px;
-    }
-  }
-</style>
