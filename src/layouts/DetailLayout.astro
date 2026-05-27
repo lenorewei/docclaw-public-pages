@@ -14,9 +14,10 @@ interface Props {
   sectionLabel: string;
   sectionTitle: string;
   backLabel?: string;
+  headings?: Array<{ depth: number; slug: string; text: string }>;
 }
 
-const { post, sectionLabel, sectionTitle, backLabel = '返回列表' } = Astro.props;
+const { post, sectionLabel, sectionTitle, backLabel = '返回列表', headings = [] } = Astro.props;
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat('zh-CN', {
@@ -26,6 +27,7 @@ const formatDate = (date: Date) =>
   }).format(date);
 
 const machineDate = (date: Date) => date.toISOString();
+const tocHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
 ---
 
 <!doctype html>
@@ -92,6 +94,20 @@ const machineDate = (date: Date) => date.toISOString();
               <ul class="tag-list" aria-label="标签">
                 {post.data.tags.map((tag) => <li>{tag}</li>)}
               </ul>
+            )
+          }
+          {
+            tocHeadings.length > 0 && (
+              <nav class="toc-rail" aria-label="目录">
+                <h2>目录</h2>
+                <ol>
+                  {tocHeadings.map((heading) => (
+                    <li class={`toc-depth-${heading.depth}`}>
+                      <a href={`#${heading.slug}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
             )
           }
         </aside>

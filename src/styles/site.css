@@ -407,6 +407,46 @@ button:focus-visible {
   padding-top: 13px;
 }
 
+.toc-rail {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.toc-rail h2 {
+  margin-bottom: 12px;
+}
+
+.toc-rail ol {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-rail li {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.toc-rail .toc-depth-3 {
+  padding-left: 12px;
+  font-size: 0.76rem;
+}
+
+.toc-rail a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.toc-rail a:hover,
+.toc-rail a:focus-visible {
+  color: var(--accent);
+}
+
 .article-content {
   max-width: 72ch;
   padding-top: 8px;
@@ -512,6 +552,27 @@ button:focus-visible {
   margin: 1.6em 0;
   border: 0;
   background: var(--line);
+}
+
+.article-content img,
+.article-content video {
+  display: block;
+  width: 100%;
+  max-height: 460px;
+  margin: 1em 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper-raised);
+  object-fit: contain;
+}
+
+.article-content video {
+  background: oklch(0.16 0.018 92);
+}
+
+.article-content p:has(> img),
+.article-content p:has(> video) {
+  margin: 1.15em 0;
 }
 
 @media (max-width: 920px) {
