@@ -704,3 +704,89 @@ button:focus-visible {
     font-size: 1.12rem;
   }
 }
+
+/* WeRead discovery card */
+.weread-card {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 14px;
+  margin: 0.85rem 0 1.35rem;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-raised);
+}
+
+.weread-cover img {
+  width: 96px;
+  height: 136px;
+  margin: 0;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.weread-body {
+  min-width: 0;
+}
+
+.weread-kicker {
+  margin-bottom: 4px;
+  color: var(--muted-soft);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-content .weread-card h4 {
+  margin: 0 0 4px;
+  font-size: 1.02rem;
+  line-height: 1.32;
+}
+
+.article-content .weread-card p {
+  margin: 0.45rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.weread-meta {
+  color: var(--muted);
+}
+
+.weread-intro {
+  color: var(--ink);
+}
+
+.weread-highlight,
+.weread-thought {
+  padding-left: 10px;
+  border-left: 2px solid var(--line-strong, var(--line));
+  color: var(--muted);
+}
+
+.weread-highlight span,
+.weread-thought span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted-soft);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+}
+
+.weread-open a {
+  font-size: 0.88rem;
+}
+
+@media (max-width: 640px) {
+  .weread-card {
+    grid-template-columns: 72px minmax(0, 1fr);
+    padding: 12px;
+  }
+  .weread-cover img {
+    width: 72px;
+    height: 104px;
+  }
+}
+
