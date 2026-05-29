@@ -339,8 +339,8 @@ button:focus-visible {
 }
 
 .article-header {
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 28px;
+  border-bottom: none;
+  padding-bottom: 18px;
 }
 
 .article-header h1 {
