@@ -448,11 +448,28 @@ button:focus-visible {
 }
 
 .article-content {
+  width: 100%;
+  min-width: 0;
   max-width: 72ch;
   padding-top: 8px;
   color: var(--ink);
   font-size: 1.02rem;
   line-height: 1.82;
+  overflow-wrap: anywhere;
+}
+
+.article-content > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content p,
+.article-content blockquote {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .article-content > h1:first-child {
